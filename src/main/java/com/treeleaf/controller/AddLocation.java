@@ -20,7 +20,7 @@ public class AddLocation {
 	@Autowired
 	ILocationService locationServiec;
 	
-	@PostMapping("/addlocation")
+	@PostMapping("/location")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> addLocation(@RequestBody List<LocationRequest> locationRequest){
 		return locationServiec.saveLocation(locationRequest);

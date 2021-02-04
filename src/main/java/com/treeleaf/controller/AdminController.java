@@ -25,26 +25,28 @@ public class AdminController {
 	
 	@Autowired
 	IAdminService adminService;
-	
-	@GetMapping("/vehicle-details/{id}")
+
+
+	@GetMapping("/vehicle/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public VehicleDetailsResponse getDetails(@PathVariable Long id){
 		return adminService.getDetails(id);
 	}
 	
-	@RequestMapping(value="/vehicle-details/{id}/pdf",method = RequestMethod.GET,produces = MediaType.APPLICATION_PDF_VALUE)
+	@RequestMapping(value="/vehicle/{id}/pdf",method = RequestMethod.GET,produces = MediaType.APPLICATION_PDF_VALUE)
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getPDF(@PathVariable Long id){
 		VehicleDetailsResponse vehicleDetails = adminService.getDetails(id);
-		System.out.println(vehicleDetails);
+
 		if(vehicleDetails.getStatus().equals("NOT_FOUND")) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Vehicle not found"));
 		}
-		System.out.println("first Hello world");
+
 		ByteArrayInputStream bais = PDFGenerator.generatePDF(adminService.getDetails(id));
-		System.out.println("hello world");
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Vehicle-Details", "inline; filename=vehicleDetails.pdf");
+
 		return ResponseEntity.ok()
 					.headers(headers)
 					.contentType(MediaType.APPLICATION_PDF)

@@ -8,4 +8,7 @@ import com.treeleaf.payload.request.VehicleRequest;
 public interface IVehicleService {
 	
 	ResponseEntity<?> add(VehicleRequest vechileRequest);
+
+	ResponseEntity<?> getAll();
+
 }

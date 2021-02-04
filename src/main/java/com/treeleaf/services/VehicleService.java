@@ -2,6 +2,7 @@ package com.treeleaf.services;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,13 @@ public class VehicleService implements IVehicleService{
 	
 	@Autowired
 	LocationRepository locationRepository;
-	
+
+
+	@Override
+	public ResponseEntity<?> getAll(){
+		return ResponseEntity.ok(vehicleRepository.findAll());
+	}
+
 	@Override
 	public ResponseEntity<?> add(VehicleRequest vehicleRequest) {
 		
@@ -39,6 +46,7 @@ public class VehicleService implements IVehicleService{
 		
 		vehicle.setLocation(location);
 		vehicleRepository.save(vehicle);
+		
 		return ResponseEntity.ok(new MessageResponse("Vechile Successfully added"));
 	}
 
